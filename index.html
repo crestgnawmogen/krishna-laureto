@@ -7,38 +7,45 @@
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background-color: #f5f7fa;
+      background: #f4f6fb;
       color: #1f2937;
+      transition: 0.3s;
+    }
+
+    body.dark {
+      background: #0f172a;
+      color: #f8fafc;
     }
 
     .container {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 80px 25px;
+      max-width: 1000px;
+      margin: auto;
+      padding: 60px 25px;
     }
 
     .hero {
-      background-color: white;
+      background: white;
       padding: 50px;
-      border-radius: 18px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      border-radius: 25px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+      text-align: center;
+      transition: 0.3s;
+    }
+
+    body.dark .hero, body.dark .card {
+      background: #1e293b;
     }
 
     h1 {
-      font-size: 48px;
+      font-size: 50px;
       margin-bottom: 10px;
-      color: #111827;
     }
 
-    .subtitle {
-      font-size: 20px;
-      color: #4b5563;
-      margin-bottom: 35px;
-    }
-
-    h2 {
-      margin-top: 35px;
-      color: #111827;
+    .typing {
+      font-size: 22px;
+      color: #2563eb;
+      font-weight: bold;
+      min-height: 30px;
     }
 
     p {
@@ -46,13 +53,67 @@
       line-height: 1.7;
     }
 
+    .button {
+      display: inline-block;
+      margin: 10px;
+      padding: 12px 20px;
+      border-radius: 30px;
+      background: #2563eb;
+      color: white;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    .button:hover {
+      background: #1d4ed8;
+      transform: scale(1.05);
+    }
+
+    .section {
+      margin-top: 40px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.07);
+      transition: 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+    }
+
     .tag {
       display: inline-block;
-      background-color: #e5e7eb;
-      padding: 8px 14px;
+      background: #e0e7ff;
+      color: #1e40af;
+      padding: 8px 13px;
       border-radius: 20px;
-      margin-top: 10px;
+      margin: 5px;
       font-size: 14px;
+    }
+
+    body.dark .tag {
+      background: #334155;
+      color: #bfdbfe;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 50px;
+      font-size: 14px;
+      color: #6b7280;
     }
   </style>
 </head>
@@ -61,22 +122,87 @@
   <div class="container">
     <div class="hero">
       <h1>Krishna Laureto</h1>
-      <p class="subtitle">Computer Science | Data Science</p>
+      <div class="typing" id="typing"></div>
 
-      <h2>About Me</h2>
       <p>
         I have a background in Bachelor of Science in Computer Science major in Data Science,
         with interests in data science, machine learning, and web-based systems. I aim to build
         practical and data-driven solutions that support real-world decision-making.
       </p>
 
-      <h2>Course</h2>
-      <p>Bachelor of Science in Computer Science Major in Data Science</p>
+      <button class="button" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+      <a class="button" href="#projects">View Projects</a>
+      <a class="button" href="mailto:your-email-here">Contact Me</a>
+    </div>
 
+    <div class="section">
+      <h2>Skills</h2>
+      <span class="tag">Python</span>
       <span class="tag">Data Science</span>
       <span class="tag">Machine Learning</span>
-      <span class="tag">Web-Based Systems</span>
+      <span class="tag">Web Development</span>
+      <span class="tag">HTML</span>
+      <span class="tag">CSS</span>
+      <span class="tag">JavaScript</span>
     </div>
+
+    <div class="section" id="projects">
+      <h2>Featured Projects</h2>
+
+      <div class="cards">
+        <div class="card">
+          <h3>OURauthenticaTOR</h3>
+          <p>
+            A prototype for detecting suspicious forged Transcript of Records images using
+            patch-based deep learning and document image analysis.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3>Lakatan Banana Tier Classification</h3>
+          <p>
+            An image classification project using machine learning to classify Lakatan banana tiers.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3>WasteWatch Dashboard</h3>
+          <p>
+            A data and image annotation project related to waste monitoring and artificial intelligence-assisted detection.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3>Property Management System</h3>
+          <p>
+            A web-based simulation platform for hotel room management and front desk training workflows.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      © 2026 Krishna Laureto. Portfolio in progress.
+    </footer>
   </div>
+
+  <script>
+    const text = "Computer Science | Data Science | Machine Learning";
+    let index = 0;
+
+    function typeEffect() {
+      if (index < text.length) {
+        document.getElementById("typing").innerHTML += text.charAt(index);
+        index++;
+        setTimeout(typeEffect, 70);
+      }
+    }
+
+    function toggleDarkMode() {
+      document.body.classList.toggle("dark");
+    }
+
+    typeEffect();
+  </script>
 </body>
 </html>
