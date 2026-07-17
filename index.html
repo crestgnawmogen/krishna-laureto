@@ -1,157 +1,381 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Portfolio of Krishna Laureto, a Computer Science graduate focused on data science, machine learning, and web-based systems."
-    />
-    <meta name="author" content="Krishna Laureto" />
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CRESTGNAW — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#EAF0F6;
+    --bg-grid:#DCE5F0;
+    --panel:#FFFFFF;
+    --ink:#1B1B1F;
+    --ink-soft:#5B6472;
+    --red:#FF4B4B;
+    --red-dark:#D63B3B;
+    --green:#00B87A;
+    --gold:#FFC93C;
+    --blue:#4B9EFF;
+    --border:#C9D0DA;
+    --shadow-dark:#9AA5B4;
+    --radius:14px;
+  }
 
-    <title>Krishna Laureto | Portfolio</title>
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
 
-    <link rel="stylesheet" href="styles.css" />
-    <script src="script.js" defer></script>
-  </head>
+  body{
+    margin:0;
+    background:
+      linear-gradient(var(--bg-grid) 1px, transparent 1px) 0 0/40px 40px,
+      linear-gradient(90deg, var(--bg-grid) 1px, transparent 1px) 0 0/40px 40px,
+      var(--bg);
+    color:var(--ink);
+    font-family:'Nunito Sans', sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
 
-  <body>
-    <header class="site-header">
-      <nav class="nav" aria-label="Main navigation">
-        <a class="logo" href="#">Krishna Laureto</a>
+  h1,h2,h3, .display{ font-family:'Fredoka', sans-serif; }
+  .mono{ font-family:'JetBrains Mono', monospace; }
 
-        <div class="nav-links">
-          <a href="#skills">Skills</a>
-          <a href="#projects">Projects</a>
-          <a href="#contact">Contact</a>
-        </div>
-      </nav>
-    </header>
+  a{ color:inherit; text-decoration:none; }
 
-    <main>
-      <section class="hero" aria-labelledby="hero-title">
-        <div class="hero-content">
-          <p class="eyebrow">Computer Science | Data Science | Machine Learning</p>
-          <h1 id="hero-title">Hi, I am Krishna Laureto.</h1>
-          <p class="typing" id="typing" aria-live="polite"></p>
+  /* ---------- loading screen ---------- */
+  #loader{
+    position:fixed; inset:0; background:var(--ink); z-index:999;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:16px;
+    transition:opacity .5s ease, visibility .5s ease;
+  }
+  #loader.hide{ opacity:0; visibility:hidden; }
+  #loader .bar{ width:220px; height:10px; background:#33363d; border-radius:6px; overflow:hidden; }
+  #loader .bar span{ display:block; height:100%; width:0%; background:var(--red); animation:load 1.1s ease forwards; }
+  #loader p{ color:#8b93a1; font-family:'JetBrains Mono', monospace; font-size:12px; letter-spacing:.15em; text-transform:uppercase; }
+  @keyframes load{ to{ width:100%; } }
 
-          <p class="hero-text">
-            I have a background in Bachelor of Science in Computer Science major in
-            Data Science, with interests in data science, machine learning, and
-            web-based systems. I aim to build practical and data-driven solutions
-            that support real-world decision-making.
-          </p>
+  /* ---------- blocky button (signature bevel) ---------- */
+  .block-btn{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:14px 26px;
+    background:var(--red);
+    color:#fff;
+    font-family:'Fredoka', sans-serif;
+    font-weight:600;
+    font-size:15px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    box-shadow:
+      inset 0 3px 0 rgba(255,255,255,.35),
+      inset 0 -4px 0 rgba(0,0,0,.25),
+      0 6px 0 var(--red-dark),
+      0 10px 14px rgba(214,59,59,.35);
+    transform:translateY(0);
+    transition:transform .08s ease, box-shadow .08s ease;
+  }
+  .block-btn:active{
+    transform:translateY(6px);
+    box-shadow:
+      inset 0 3px 0 rgba(255,255,255,.25),
+      inset 0 -2px 0 rgba(0,0,0,.2),
+      0 0 0 var(--red-dark);
+  }
+  .block-btn.secondary{
+    background:var(--panel); color:var(--ink);
+    box-shadow:
+      inset 0 3px 0 rgba(255,255,255,.8),
+      inset 0 -4px 0 rgba(0,0,0,.08),
+      0 6px 0 var(--border),
+      0 10px 14px rgba(154,165,180,.25);
+  }
+  .block-btn.secondary:active{
+    box-shadow:
+      inset 0 3px 0 rgba(255,255,255,.6),
+      inset 0 -2px 0 rgba(0,0,0,.06),
+      0 0 0 var(--border);
+  }
 
-          <div class="hero-actions" aria-label="Portfolio actions">
-            <button class="button button-secondary" id="theme-toggle" type="button">
-              Toggle Dark Mode
-            </button>
-            <a class="button" href="#projects">View Projects</a>
-            <a class="button button-secondary" href="mailto:your-email-here@example.com">
-              Contact Me
-            </a>
-          </div>
-        </div>
-      </section>
+  /* ---------- nav ---------- */
+  nav{
+    position:sticky; top:0; z-index:50;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 6vw;
+    background:rgba(234,240,246,.85);
+    backdrop-filter:blur(8px);
+    border-bottom:2px solid var(--border);
+  }
+  .logo{
+    font-family:'Fredoka', sans-serif; font-weight:700; font-size:20px;
+    display:flex; align-items:center; gap:8px;
+  }
+  .logo .chip{
+    width:16px; height:16px; background:var(--red); border-radius:4px;
+    box-shadow: inset 0 2px 0 rgba(255,255,255,.5), inset 0 -2px 0 rgba(0,0,0,.2);
+  }
+  .navlinks{ display:flex; gap:6px; }
+  .navlinks a{
+    padding:8px 14px; border-radius:8px; font-weight:700; font-size:14px;
+    color:var(--ink-soft);
+    transition:background .15s, color .15s;
+  }
+  .navlinks a:hover{ background:var(--panel); color:var(--ink); }
 
-      <section class="section" id="skills" aria-labelledby="skills-title">
-        <div class="section-header">
-          <p class="eyebrow">What I work with</p>
-          <h2 id="skills-title">Skills</h2>
-        </div>
+  section{ padding:64px 6vw; max-width:1180px; margin:0 auto; }
 
-        <ul class="tag-list" aria-label="Technical skills">
-          <li>Python</li>
-          <li>Data Science</li>
-          <li>Machine Learning</li>
-          <li>Web Development</li>
-          <li>HTML</li>
-          <li>CSS</li>
-          <li>JavaScript</li>
-        </ul>
-      </section>
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace; font-size:12px; letter-spacing:.18em;
+    text-transform:uppercase; color:var(--ink-soft); font-weight:700;
+    display:flex; align-items:center; gap:10px; margin-bottom:10px;
+  }
+  .eyebrow::before{ content:''; width:10px; height:10px; background:var(--gold); border-radius:3px; display:inline-block; }
 
-      <section class="section" id="projects" aria-labelledby="projects-title">
-        <div class="section-header">
-          <p class="eyebrow">Selected work</p>
-          <h2 id="projects-title">Featured Projects</h2>
-        </div>
+  /* ---------- hero ---------- */
+  .hero{
+    display:grid; grid-template-columns:1.1fr 1fr; gap:40px; align-items:center;
+    padding-top:56px;
+  }
+  .charcard{
+    background:var(--panel); border-radius:20px; padding:30px;
+    border:2px solid var(--border);
+    box-shadow:0 3px 0 var(--border), 0 14px 30px rgba(154,165,180,.25);
+    position:relative;
+  }
+  .avatar-stage{
+    height:220px; position:relative; display:flex; align-items:flex-end; justify-content:center;
+    background:radial-gradient(ellipse at center, rgba(75,158,255,.12), transparent 70%);
+    border-radius:14px; margin-bottom:18px; overflow:hidden;
+  }
+  .avatar{ position:relative; width:90px; animation:bob 2.6s ease-in-out infinite; }
+  .avatar .head{ width:46px; height:40px; background:#FFD37A; border-radius:8px; margin:0 auto; position:relative; box-shadow: inset 0 -6px 0 rgba(0,0,0,.08);}
+  .avatar .eye{ position:absolute; width:5px; height:7px; background:var(--ink); border-radius:2px; top:16px; }
+  .avatar .eye.l{ left:12px; } .avatar .eye.r{ right:12px; }
+  .avatar .torso{ width:58px; height:52px; background:var(--red); border-radius:8px; margin:2px auto 0; box-shadow: inset 0 -8px 0 rgba(0,0,0,.12);}
+  .avatar .arm{ position:absolute; width:16px; height:46px; background:var(--red-dark); border-radius:6px; top:44px; }
+  .avatar .arm.l{ left:-10px; transform:rotate(6deg); } .avatar .arm.r{ right:-10px; transform:rotate(-6deg); }
+  .avatar .legs{ display:flex; gap:6px; justify-content:center; margin-top:2px; }
+  .avatar .leg{ width:22px; height:40px; background:var(--ink); border-radius:6px; }
+  @keyframes bob{ 0%,100%{ transform:translateY(0);} 50%{ transform:translateY(-8px);} }
 
-        <div class="project-grid">
-          <article class="project-card">
-            <h3>OURauthenticaTOR</h3>
-            <p>
-              A prototype for detecting suspicious forged Transcript of Records
-              images using patch-based deep learning and document image analysis.
-            </p>
-            <div class="project-links">
-              <a href="#" aria-label="View OURauthenticaTOR project details">Details</a>
-              <a href="#" aria-label="Open OURauthenticaTOR live demo">Live Demo</a>
-            </div>
-          </article>
+  .charname{ font-size:26px; font-weight:700; text-align:center; }
+  .chartitle{ text-align:center; color:var(--ink-soft); font-weight:700; font-size:14px; margin-top:2px; }
 
-          <article class="project-card">
-            <h3>Lakatan Banana Tier Classification</h3>
-            <p>
-              An image classification project using machine learning to classify
-              Lakatan banana tiers.
-            </p>
-            <div class="project-links">
-              <a href="#" aria-label="View Lakatan Banana Tier Classification project details">
-                Details
-              </a>
-              <a href="#" aria-label="Open Lakatan Banana Tier Classification live demo">
-                Live Demo
-              </a>
-            </div>
-          </article>
+  .statrow{ display:flex; justify-content:space-between; margin-top:22px; gap:10px; }
+  .stat{ flex:1; text-align:center; background:var(--bg); border-radius:10px; padding:12px 6px; border:2px solid var(--border); }
+  .stat b{ display:block; font-family:'JetBrains Mono', monospace; font-size:18px; }
+  .stat span{ font-size:11px; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.06em; font-weight:700; }
 
-          <article class="project-card">
-            <h3>WasteWatch Dashboard</h3>
-            <p>
-              A data and image annotation project related to waste monitoring and
-              artificial intelligence-assisted detection.
-            </p>
-            <div class="project-links">
-              <a href="#" aria-label="View WasteWatch Dashboard project details">Details</a>
-              <a href="#" aria-label="Open WasteWatch Dashboard live demo">Live Demo</a>
-            </div>
-          </article>
+  .heroright h1{ font-size:44px; line-height:1.1; margin:0 0 14px; }
+  .heroright p{ font-size:17px; color:var(--ink-soft); max-width:46ch; margin-bottom:26px; }
+  .herobtns{ display:flex; gap:14px; flex-wrap:wrap; }
 
-          <article class="project-card">
-            <h3>Property Management System</h3>
-            <p>
-              A web-based simulation platform for hotel room management and front
-              desk training workflows.
-            </p>
-            <div class="project-links">
-              <a href="#" aria-label="View Property Management System project details">
-                Details
-              </a>
-              <a href="#" aria-label="Open Property Management System live demo">
-                Live Demo
-              </a>
-            </div>
-          </article>
-        </div>
-      </section>
+  /* ---------- badges / projects ---------- */
+  .badgegrid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:26px; margin-top:34px; }
+  .badge{
+    background:var(--panel); border-radius:16px; padding:26px 20px 22px;
+    border:2px solid var(--border);
+    box-shadow:0 3px 0 var(--border), 0 12px 24px rgba(154,165,180,.2);
+    position:relative; overflow:hidden;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .badge:hover{ transform:translateY(-4px); box-shadow:0 6px 0 var(--border), 0 18px 30px rgba(154,165,180,.3); }
+  .ribbon{
+    position:absolute; top:14px; right:-30px; transform:rotate(40deg);
+    padding:3px 34px; font-size:10px; font-weight:800; letter-spacing:.08em;
+    font-family:'JetBrains Mono', monospace; color:#fff;
+  }
+  .ribbon.common{ background:var(--shadow-dark); }
+  .ribbon.rare{ background:var(--blue); }
+  .ribbon.legendary{ background:var(--gold); color:#5a4200; }
+  .hex{
+    width:56px; height:64px;
+    clip-path:polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    display:flex; align-items:center; justify-content:center;
+    font-size:24px; margin-bottom:16px;
+  }
+  .hex.common{ background:linear-gradient(160deg,#c9d0da,#9AA5B4); }
+  .hex.rare{ background:linear-gradient(160deg,#8fc0ff,#4B9EFF); }
+  .hex.legendary{ background:linear-gradient(160deg,#ffe08a,#FFC93C); }
+  .badge h3{ font-size:18px; margin:0 0 8px; }
+  .badge p{ font-size:14px; color:var(--ink-soft); line-height:1.55; margin:0 0 14px; }
+  .tags{ display:flex; flex-wrap:wrap; gap:6px; }
+  .tag{ font-family:'JetBrains Mono', monospace; font-size:11px; background:var(--bg); border:1px solid var(--border); padding:4px 8px; border-radius:6px; color:var(--ink-soft); font-weight:700; }
 
-      <section class="section contact-section" id="contact" aria-labelledby="contact-title">
-        <div>
-          <p class="eyebrow">Let us connect</p>
-          <h2 id="contact-title">Contact</h2>
-          <p>
-            I am open to portfolio feedback, collaboration, and opportunities related
-            to data science, machine learning, and web development.
-          </p>
-        </div>
+  /* ---------- inventory / skills ---------- */
+  .invgrid{ display:grid; grid-template-columns:repeat(5, 1fr); gap:14px; margin-top:30px; }
+  .slot{
+    background:var(--panel); border:2px solid var(--border); border-radius:12px;
+    padding:16px 10px; text-align:center;
+    box-shadow:0 3px 0 var(--border);
+  }
+  .slot .icon{ font-size:22px; margin-bottom:8px; }
+  .slot .label{ font-size:12px; font-weight:700; }
 
-        <a class="button" href="mailto:your-email-here@example.com">Send Email</a>
-      </section>
-    </main>
+  /* ---------- quest / education ---------- */
+  .quest{
+    display:flex; gap:24px; align-items:center;
+    background:var(--panel); border:2px solid var(--border); border-radius:16px;
+    padding:26px 30px; margin-top:30px;
+    box-shadow:0 3px 0 var(--border), 0 12px 24px rgba(154,165,180,.2);
+  }
+  .quest .check{
+    width:52px; height:52px; min-width:52px; border-radius:12px; background:var(--green);
+    display:flex; align-items:center; justify-content:center; color:#fff; font-size:24px;
+    box-shadow: inset 0 3px 0 rgba(255,255,255,.35), inset 0 -4px 0 rgba(0,0,0,.15);
+  }
+  .quest h3{ margin:0 0 4px; font-size:17px; }
+  .quest p{ margin:0; color:var(--ink-soft); font-size:14px; }
 
-    <footer class="site-footer">
-      <p>&copy; 2026 Krishna Laureto. Portfolio in progress.</p>
-    </footer>
-  </body>
+  /* ---------- contact ---------- */
+  .contact{
+    text-align:center; margin-top:20px;
+    background:var(--ink); color:#fff; border-radius:22px; padding:56px 6vw;
+  }
+  .contact h2{ font-size:30px; margin-bottom:10px; }
+  .contact p{ color:#a9b1bd; margin-bottom:28px; }
+  .contactbtns{ display:flex; gap:16px; justify-content:center; flex-wrap:wrap; }
+
+  footer{ text-align:center; padding:30px; color:var(--ink-soft); font-size:12px; font-family:'JetBrains Mono', monospace; }
+
+  @media (max-width:860px){
+    .hero{ grid-template-columns:1fr; }
+    .badgegrid{ grid-template-columns:1fr; }
+    .invgrid{ grid-template-columns:repeat(2,1fr); }
+    .navlinks{ display:none; }
+  }
+  @media (prefers-reduced-motion:reduce){
+    .avatar{ animation:none; }
+    html{ scroll-behavior:auto; }
+  }
+</style>
+</head>
+<body>
+
+<div id="loader">
+  <p>Joining server…</p>
+  <div class="bar"><span></span></div>
+</div>
+
+<nav>
+  <div class="logo"><span class="chip"></span>CRESTGNAW</div>
+  <div class="navlinks">
+    <a href="#projects">Projects</a>
+    <a href="#skills">Skills</a>
+    <a href="#education">Education</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="charcard">
+    <div class="avatar-stage">
+      <div class="avatar">
+        <div class="head"><span class="eye l"></span><span class="eye r"></span></div>
+        <div class="arm l"></div>
+        <div class="torso"></div>
+        <div class="arm r"></div>
+        <div class="legs"><div class="leg"></div><div class="leg"></div></div>
+      </div>
+    </div>
+    <div class="charname">CRESTGNAW</div>
+    <div class="chartitle">ASPIRING BUSINESS ANALYST</div>
+    <div class="statrow">
+      <div class="stat"><b>3</b><span>Projects</span></div>
+      <div class="stat"><b>2026</b><span>Grad Yr</span></div>
+      <div class="stat"><b>★ Cum Laude</b><span>Honors</span></div>
+    </div>
+  </div>
+
+  <div class="heroright">
+    <div class="eyebrow">Now loading · Data Science Graduate</div>
+    <h1>Turning messy data<br>into clear decisions.</h1>
+    <p>[Edit me] I'm a recent Data Science graduate who enjoys digging into data, spotting the anomaly nobody else sees, and translating it into something a business can act on. Currently looking for Business Analyst roles.</p>
+    <div class="herobtns">
+      <a class="block-btn" href="#projects">▶ View Projects</a>
+      <a class="block-btn secondary" href="#contact">Add Contact</a>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="eyebrow">Achievements Unlocked</div>
+  <h2 style="font-size:30px; margin:0;">Project Badges</h2>
+
+  <div class="badgegrid">
+    <div class="badge">
+      <div class="ribbon common">COMMON</div>
+      <div class="hex common">🏢</div>
+      <h3>Property Management System</h3>
+      <p>[Edit me] Built during OJT — worked on [requirements gathering / database design / a specific module] for a system used to manage [tenants, units, billing, etc.]. Focus was on translating stakeholder needs into a working tool.</p>
+      <div class="tags"><span class="tag">OJT</span><span class="tag">SQL</span><span class="tag">Requirements</span></div>
+    </div>
+
+    <div class="badge">
+      <div class="ribbon rare">RARE</div>
+      <div class="hex rare">🗑️</div>
+      <h3>WasteWatch</h3>
+      <p>[Edit me] A data project focused on [waste collection patterns / sustainability metrics]. Involved cleaning raw data, building [dashboards/visualizations], and surfacing insights on [key finding].</p>
+      <div class="tags"><span class="tag">Python</span><span class="tag">Data Cleaning</span><span class="tag">Dashboards</span></div>
+    </div>
+
+    <div class="badge">
+      <div class="ribbon legendary">LEGENDARY</div>
+      <div class="hex legendary">📈</div>
+      <h3>Thesis: Anomaly Detection</h3>
+      <p>[Edit me] Capstone thesis applying anomaly detection techniques to [dataset/domain]. Used [model/method] to flag [type of anomaly], achieving [result/metric].</p>
+      <div class="tags"><span class="tag">Anomaly Detection</span><span class="tag">Machine Learning</span><span class="tag">Thesis</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="eyebrow">Inventory</div>
+  <h2 style="font-size:30px; margin:0;">Skills Equipped</h2>
+  <div class="invgrid">
+    <div class="slot"><div class="icon">🐍</div><div class="label">Python</div></div>
+    <div class="slot"><div class="icon">🗄️</div><div class="label">SQL</div></div>
+    <div class="slot"><div class="icon">📊</div><div class="label">Excel</div></div>
+    <div class="slot"><div class="icon">📉</div><div class="label">Tableau / Power BI</div></div>
+    <div class="slot"><div class="icon">🧮</div><div class="label">Statistics</div></div>
+    <div class="slot"><div class="icon">🧹</div><div class="label">Data Cleaning</div></div>
+    <div class="slot"><div class="icon">🗺️</div><div class="label">Process Mapping</div></div>
+    <div class="slot"><div class="icon">🤝</div><div class="label">Stakeholder Comms</div></div>
+    <div class="slot"><div class="icon">🔎</div><div class="label">Anomaly Detection</div></div>
+    <div class="slot"><div class="icon">📝</div><div class="label">Requirements Gathering</div></div>
+  </div>
+</section>
+
+<section id="education">
+  <div class="eyebrow">Quest Log</div>
+  <h2 style="font-size:30px; margin:0;">Education</h2>
+  <div class="quest">
+    <div class="check">✓</div>
+    <div>
+      <h3>BS Computer Science, Data Science Major</h3>
+      <p>Graduated June 2026 · Cum Laude</p>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="contact">
+    <h2>Add me as a friend</h2>
+    <p>Open to Business Analyst roles and remote opportunities.</p>
+    <div class="contactbtns">
+      <a class="block-btn" href="mailto:lauretokrishna@gmail.com">✉ Email Me</a>
+      <a class="block-btn secondary" href="#" title="Replace this href with your real LinkedIn URL">🔗 LinkedIn [Add URL]</a>
+    </div>
+  </div>
+</section>
+
+<footer>© 2026 CRESTGNAW — BUILT WITH BLOCKS AND SPREADSHEETS</footer>
+
+<script>
+  window.addEventListener('load', () => {
+    setTimeout(() => document.getElementById('loader').classList.add('hide'), 900);
+  });
+</script>
+
+</body>
 </html>
