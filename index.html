@@ -373,47 +373,113 @@
     }
 
     .head {
-      width: 78px;
+      width: 76px;
       height: 68px;
-      top: 12px;
-      left: 37px;
+      top: 34px;
+      left: 38px;
+      z-index: 3;
       border-radius: 14px;
       background: #ffd37a;
     }
 
     .hair {
-      width: 86px;
-      height: 24px;
-      top: 6px;
-      left: 33px;
-      border-radius: 12px 12px 7px 7px;
+      width: 104px;
+      height: 104px;
+      top: 20px;
+      left: 24px;
+      z-index: 2;
+      border-radius: 22px 22px 18px 18px;
       background: #20242c;
-      transform: rotate(-2deg);
     }
 
+    .hair::before,
+    .hair::after {
+      content: "";
+      position: absolute;
+      top: 72px;
+      width: 26px;
+      height: 62px;
+      border-radius: 10px;
+      background: #20242c;
+      box-shadow: inset 0 -8px 0 rgba(255,255,255,.08);
+    }
+
+    .hair::before {
+      left: 0;
+    }
+
+    .hair::after {
+      right: 0;
+    }
+
+    .fringe {
+      width: 78px;
+      height: 24px;
+      top: 26px;
+      left: 37px;
+      z-index: 5;
+      border-radius: 12px 12px 8px 8px;
+      background: #20242c;
+    }
+
+    .bow-left,
+    .bow-right {
+      width: 20px;
+      height: 18px;
+      top: 14px;
+      z-index: 6;
+      border-radius: 7px;
+      background: var(--gold);
+      box-shadow: inset 0 4px 0 rgba(255,255,255,.32), inset 0 -5px 0 rgba(0,0,0,.15);
+    }
+
+    .bow-left {
+      left: 66px;
+      transform: rotate(-20deg);
+    }
+
+    .bow-right {
+      right: 66px;
+      transform: rotate(20deg);
+    }
+
+    .smile {
+      width: 18px;
+      height: 6px;
+      top: 75px;
+      left: 67px;
+      z-index: 6;
+      border-radius: 0 0 10px 10px;
+      border-bottom: 3px solid #9a4a2f;
+      box-shadow: none;
+      background: transparent;
+    }
+    
     .eye-left,
     .eye-right {
       width: 8px;
       height: 12px;
-      top: 39px;
+      top: 61px;
+      z-index: 6;
       border-radius: 3px;
       background: var(--ink);
       box-shadow: none;
     }
 
     .eye-left {
-      left: 54px;
+      left: 55px;
     }
 
     .eye-right {
-      right: 54px;
+      right: 55px;
     }
 
     .body {
-      width: 92px;
-      height: 82px;
-      top: 84px;
-      left: 30px;
+      width: 88px;
+      height: 76px;
+      top: 104px;
+      left: 32px;
+      z-index: 3;
       border-radius: 14px;
       background: var(--red);
     }
@@ -421,8 +487,9 @@
     .badge-dot {
       width: 18px;
       height: 18px;
-      top: 108px;
+      top: 124px;
       left: 67px;
+      z-index: 5;
       border-radius: 5px;
       background: var(--gold);
     }
@@ -431,7 +498,8 @@
     .arm-right {
       width: 28px;
       height: 76px;
-      top: 91px;
+      top: 111px;
+      z-index: 2;
       border-radius: 10px;
       background: var(--red-dark);
     }
@@ -448,19 +516,20 @@
 
     .leg-left,
     .leg-right {
-      width: 40px;
-      height: 66px;
-      top: 166px;
+      width: 38px;
+      height: 54px;
+      top: 178px;
+      z-index: 1;
       border-radius: 10px;
       background: #1f2530;
     }
 
     .leg-left {
-      left: 34px;
+      left: 36px;
     }
 
     .leg-right {
-      right: 34px;
+      right: 36px;
     }
 
     @keyframes idle {
@@ -988,9 +1057,13 @@
         <div class="avatar-stage" aria-hidden="true">
           <div class="avatar">
             <div class="hair"></div>
+            <div class="fringe"></div>
+            <div class="bow-left"></div>
+            <div class="bow-right"></div>
             <div class="head"></div>
             <div class="eye-left"></div>
             <div class="eye-right"></div>
+            <div class="smile"></div>
             <div class="body"></div>
             <div class="badge-dot"></div>
             <div class="arm-left"></div>
